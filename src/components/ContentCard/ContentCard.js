@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
 import axios from "axios";
 
 class CardContent extends Component {
@@ -22,13 +20,16 @@ class CardContent extends Component {
   render() {
     return (
       <div className="CardComponent">
-        <Card>
-          <Card.Body>
-            {this.state.launches.map((launch) => (
-              <Card.Title key={launch.id}>{launch.name}</Card.Title>
-            ))}
-          </Card.Body>
-        </Card>
+        {this.state.launches.map((launch) => (
+          <div className="card" key={launch.id}>
+            <div className="card-body">
+              <h1 className="card-text">{launch.name}</h1>
+              <a href="#" className="btn btn-primary">
+                View
+              </a>
+            </div>
+          </div>
+        ))}
 
         {/* <Card>
           <Card.Body>
