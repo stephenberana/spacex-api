@@ -6,6 +6,11 @@ import { Card } from './components/Card/Card';
 import { Modal } from './components/Card/Modal';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
+const API = 'https://api.spacexdata.com/v5/launches'
+const params = {
+  page: 1,
+}
+
 class App extends Component {
   constructor() {
     super();
@@ -16,7 +21,7 @@ class App extends Component {
   }
 
   componentDidMount = () => {
-    axios.get("https://api.spacexdata.com/latest/launches").then((res) => {
+    axios.get(`${API}/query`, {options: params}).then((res) => {
       const launches = res.data;
       this.setState({ launches });
     });
@@ -29,8 +34,17 @@ class App extends Component {
         <SearchBox placeholder="Search..." handleChange={(e) => console.log(e.target.value)}/>
           {this.state.launches.map((launch) => (
           <Fragment>
-          <Card launch={launch}/>
-          <Modal launch={launch}/>
+            <InfiniteScroll
+              dataLength={this.state.launches.length}
+              // next={this.fetchLaunches}
+              hasMore={true}
+              loader={<div class="spinner-grow" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>}
+            >
+            <Card launch={launch}/>
+            <Modal launch={launch}/>
+            </InfiniteScroll>
           </Fragment>
           ))}
         </div>
